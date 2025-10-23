@@ -1,26 +1,24 @@
-# models
 from sqlmodel import SQLModel, Field, Relationship
 
-
 class VehiculosBase(SQLModel):
-    tipoVehiculo: str | None = Field(default=None, description="Tipo de vehiculo")
-    color: str | None = Field(default=None, description="Color del vehiculo")
-    modelo: int | None = Field(default=None, description="Modelo del vehiculo")
-    status: bool | None = Field(default=False, description="aEsta en funcionamiento el vehiculo?")
+    tipoVehiculo: str | None = Field(default=None)
+    color: str | None = Field(default=None)
+    modelo: int | None = Field(default=None)
+    status: bool | None = Field(default=False)
 
 
 class DestinoBase(SQLModel):
-    ciudad: str | None = Field(default="Bogota", description="Ciudad de destino")
-    barrio: str | None = Field(default=None, description="Barrio de destino")
-    localidad: str | None = Field(default=None, description="Localidad de destino")
-    calle: int | None = Field(default=None, description="Calle de destino")
-    descripcion: str | None = Field(default=None, description="Descripcion del destino")
+    ciudad: str | None = Field(default="Bogotá")
+    barrio: str | None = Field(default=None)
+    localidad: str | None = Field(default=None)
+    calle: int | None = Field(default=None)
+    descripcion: str | None = Field(default=None)
 
 
 class ConductorBase(SQLModel):
-    nombre: str | None = Field(default=None, description="Nombre del conductor")
-    telefono: int | None = Field(default=None, description="Teléfono del conductor")
-    status: bool | None = Field(default=True, description="El conductor está en servicio?")
+    nombre: str | None = Field(default=None)
+    telefono: int | None = Field(default=None)
+    status: bool | None = Field(default=True)
 
 
 class Destino(DestinoBase, table=True):
@@ -41,4 +39,17 @@ class Vehiculo(VehiculosBase, table=True):
     conductor: Conductor | None = Relationship(back_populates="vehiculos")
     destino: Destino | None = Relationship(back_populates="vehiculos")
 
+
+class VehiculoCreate(VehiculosBase):
+    placa: str
+    conductor_id: int
+    destino_id: int
+
+
+class ConductorCreate(ConductorBase):
+    id: int
+
+
+class DestinoCreate(DestinoBase):
+    pass
 
